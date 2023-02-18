@@ -1,5 +1,6 @@
 package authentication.authentication.modules.user;
 
+import authentication.authentication.modules.user.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class UserController {
   @Autowired
   CreateRoleUserService createRoleUserService;
 
+  @Autowired
+  UserRepository userRepository;
+
   @GetMapping
   public List<User> list() {
     return createUserService.listAll();
@@ -52,7 +56,7 @@ public class UserController {
   }
 
   @DeleteMapping("delete/{id}")
-  public ResponseEntity<Object> deleteParkingSpot(@PathVariable(value = "id") UUID id){
+  public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") UUID id){
     Optional<User> parkingSpotModelOptional = createUserService.findById(id);
     if (!parkingSpotModelOptional.isPresent()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
@@ -61,5 +65,8 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
   }
 
-
+  @PutMapping("update/{id}")
+  public User updateUser(@RequestBody User user){
+    return userRepository.save(user);
+  }
 }
