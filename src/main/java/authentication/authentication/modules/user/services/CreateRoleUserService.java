@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import authentication.authentication.modules.user.UserRepository;
+import authentication.authentication.modules.user.repository.UserRepository;
 import authentication.authentication.modules.user.dto.CreateUserRoleDTO;
 import authentication.authentication.modules.user.entities.Role;
 import authentication.authentication.modules.user.entities.User;
