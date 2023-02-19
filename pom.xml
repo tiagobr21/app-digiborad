@@ -73,7 +73,7 @@
 
 		<dependency>
 			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-impl</artifactId>
+			<artifactId>jsf-api</artifactId>
 			<version>2.2.20</version>
 		</dependency>
 
@@ -178,5 +178,19 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>https://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>central</id>
+			<name>jcenter</name>
+			<url>https://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
 
 </project>
