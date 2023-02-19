@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import authentication.authentication.modules.user.dto.CreateUserRoleDTO;
@@ -50,23 +51,32 @@ public class UserController {
     return createUserService.execute(user);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/role")
   public User role(@RequestBody CreateUserRoleDTO createUserRoleDTO) {
     return createRoleUserService.execute(createUserRoleDTO);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("delete/{id}")
   public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") UUID id){
-    Optional<User> parkingSpotModelOptional = createUserService.findById(id);
-    if (!parkingSpotModelOptional.isPresent()) {
+    Optional<User> userModelOptional = createUserService.findById(id);
+    if (!userModelOptional.isPresent()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
-    createUserService.delete(parkingSpotModelOptional.get());
+    createUserService.delete(userModelOptional.get());
     return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("update/{id}")
-  public User updateUser(@RequestBody User user){
-    return userRepository.save(user);
+  public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id,
+                                           @RequestBody User user){
+    Optional<User> userModelOptional = createUserService.findById(id);
+    if (!userModelOptional.isPresent()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+    }
+    userRepository.save(user);
+    return ResponseEntity.status(HttpStatus.OK).body("User updated successfully.");
   }
 }
