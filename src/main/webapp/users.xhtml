@@ -17,6 +17,11 @@
          //console.log(`ola`)
         //]]>
     </script>
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{usersBN.onload()}"/>
+    </f:metadata>
+
     <title>App-digiboard</title>
 </h:head>
 <f:view>
@@ -27,12 +32,15 @@
     <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
     <h:body>
         <h:form id="formUser" prependId="false">
-            <h:commandLink action="#{usersBN.listAll}" value="Recarregar a listagem!" >
+            <h:commandLink action="#{usersBN.onload()}" value="Recarregar a listagem!" >
                 <p:graphicImage name="/images/refresh.png" alt="Recarregar listagem!" width="24"/>
             </h:commandLink>
             <p:growl id="mensagens" showDetail="true" autoUpdate="true" closable="true">
                 <p:autoUpdate/>
             </p:growl>
+            <p:commandButton value="Novo" icon="ui-icon-plus" onclick="PF('userDialogWidgetVar').show()">
+
+            </p:commandButton>
             <p:dataTable id="tableUSer" var="item" value="#{usersBN.users}" prependId="false"
                          paginator="true" rows="25" emptyMessage="Não há alunos cadastrados."
                          rowKey="#{item.id}" selectionMode="single"
@@ -57,6 +65,7 @@
                         <p:graphicImage name="/images/xml.png" width="24"/>
                         <p:dataExporter type="xml" target="tableUSer" fileName="listaUsers"/>
                     </h:commandLink>
+
                 </f:facet>
 
                 <f:facet name="header"><p:outputLabel value="Lista de Usuarios: #{usersBN.listSize}"/> </f:facet>
@@ -89,6 +98,14 @@
                                      title="Detalhe">
                         <f:setPropertyActionListener value="#{item}" target="#{usersBN.user}"/>
                     </p:commandButton>
+
+                    <p:commandButton action="#{usersBN.delete(item)}"
+                      update="tableUSer"
+                      icon="ui-icon-trash"
+                      onclick="return confirm('Tem certeza que deseja excluir?')"
+                      process="@this" >
+                        <f:setPropertyActionListener value="#{item}" target="#{usersBN.user}"/>
+                    </p:commandButton>
                 </p:column>
 
             </p:dataTable>
@@ -115,6 +132,29 @@
                         <p:button id="btnFechar" value="Fechar" icon="ui-icon-plusthick"/>
                     </p:panelGrid>
                 </p:outputPanel>
+            </p:dialog>
+
+            <p:dialog header="Novo Usuario" widgetVar="userDialogWidgetVar" modal="true" resizable="false" closeOnEscape="true">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Nome" for="name"/>
+                    <p:inputText id="name" size="40" maxlength="30" />
+
+                    <p:outputLabel value="Usuario" for="username"/>
+                    <p:inputText id="username" size="40" maxlength="20" />
+
+                    <p:outputLabel value="Senha" for="password"/>
+                    <p:inputText id="password" size="40" />
+
+                    <p:outputLabel value="Endereço" for="address"/>
+                    <p:inputText id="address" size="40" maxlength="50"/>
+
+                    <p:outputLabel value="Data de Nascimento" for="dateofbirth"/>
+                    <p:calendar id="dateofbirth" pattern="yyyy/MM/dd" size="20" />
+
+                    <p:commandButton value="Salvar"/>
+ 
+                </h:panelGrid>
+
             </p:dialog>
         </h:form>
     </h:body>
