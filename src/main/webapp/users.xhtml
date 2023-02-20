@@ -17,7 +17,7 @@
          //console.log(`ola`)
         //]]>
     </script>
-    <title>Lista de Usuarios</title>
+    <title>App-digiboard</title>
 </h:head>
 <f:view>
     <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
@@ -26,93 +26,89 @@
     </p:dialog>
     <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
     <h:body>
-        <h:form id="formAlunos" prependId="false">
-            <h:commandLink action="#{alunoMB.listarTodos}" value="Recarregar a listagem!" >
+        <h:form id="formUser" prependId="false">
+            <h:commandLink action="#{usersBN.listAll}" value="Recarregar a listagem!" >
                 <p:graphicImage name="/images/refresh.png" alt="Recarregar listagem!" width="24"/>
             </h:commandLink>
             <p:growl id="mensagens" showDetail="true" autoUpdate="true" closable="true">
                 <p:autoUpdate/>
             </p:growl>
-            <p:dataTable id="tabelaAluno" var="item" value="#{alunoMB.alunos}" prependId="false"
+            <p:dataTable id="tableUSer" var="item" value="#{usersBN.users}" prependId="false"
                          paginator="true" rows="25" emptyMessage="Não há alunos cadastrados."
-                         rowKey="#{item.matricula}" selectionMode="single"
+                         rowKey="#{item.id}" selectionMode="single"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
                          {RowsPerPageDropdown} {Exporters}"
-                         selection="#{alunoMB.aluno}"
+                         selection="#{usersBN.user}"
                          rowsPerPageTemplate="10,15,25,50,100">
                 <f:facet name="{Exporters}">
                     <h:commandLink id="exportExcel">
                         <p:graphicImage name="/images/excel.png" width="24"/>
-                        <p:dataExporter type="xls" target="tabelaAluno" fileName="listaAlunos"/>
+                        <p:dataExporter type="xls" target="tableUSer" fileName="listaUsers"/>
                     </h:commandLink>
                     <h:commandLink id="exportPDF">
                         <p:graphicImage name="/images/pdf.png" width="24"/>
-                        <p:dataExporter type="pdf" target="tabelaAluno" fileName="listaAlunos"/>
+                        <p:dataExporter type="pdf" target="tableUSer" fileName="listaUsers"/>
                     </h:commandLink>
                     <h:commandLink id="exportCSV">
                         <p:graphicImage name="/images/csv.png" width="24"/>
-                        <p:dataExporter type="csv" target="tabelaAluno" fileName="listaAlunos"/>
+                        <p:dataExporter type="csv" target="tableUSer" fileName="listaUsers"/>
                     </h:commandLink>
                     <h:commandLink id="exportXML">
                         <p:graphicImage name="/images/xml.png" width="24"/>
-                        <p:dataExporter type="xml" target="tabelaAluno" fileName="listaAlunos"/>
+                        <p:dataExporter type="xml" target="tableUSer" fileName="listaUsers"/>
                     </h:commandLink>
                 </f:facet>
 
-                <f:facet name="header"><p:outputLabel value="Lista de Alunos: #{alunoMB.tamanhoDaLista}"/> </f:facet>
-                <p:column headerText="Matricula" style="width: 6%;" sortBy="#{item.matricula}"
+                <f:facet name="header"><p:outputLabel value="Lista de Usuarios: #{usersBN.listSize}"/> </f:facet>
+                <p:column headerText="Id" style="width: 6%;" sortBy="#{item.id}"
                           filterMatchMode="contains"
-                          filterBy="#{item.matricula}">
+                          filterBy="#{item.id}">
                     <h:outputText id="outputMatricula"
-                                  value="#{item.matricula}"/>
+                                  value="#{item.id}"/>
                 </p:column>
-                <p:column headerText="Nome" style="width: 25%;" sortBy="#{item.nome}"
+                <p:column headerText="Nome" style="width: 25%;" sortBy="#{item.name}"
                           filterMatchMode="contains"
-                          filterBy="#{item.nome}">
+                          filterBy="#{item.name}">
                     <h:outputText id="outputNome"
-                                  value="#{item.nome}"/>
+                                  value="#{item.name}"/>
                 </p:column>
-                <p:column headerText="Email" style="width: 10%;" sortBy="#{item.email}" filterBy="#{item.email}">
-                    <h:outputText value="#{item.email}"/>
+
+                <p:column headerText="Endereço" style="width: 10%;" sortBy="#{item.address}" filterBy="#{item.address}">
+                    <h:outputText value="#{item.address}"/>
                 </p:column>
-                <p:column headerText="Telefone" style="width: 10%;" sortBy="#{item.telefone}"
-                          filterBy="#{item.telefone}">
-                    <h:outputText value="#{item.telefone}"/>
+
+                <p:column headerText="Data de Nascimento" style="width: 10%;" sortBy="#{item.dateofbirth}"
+                          filterBy="#{item.dateofbirth}">
+                    <h:outputText value="#{item.dateofbirth}"/>
                 </p:column>
-                <p:column headerText="Data Cadastro" style="width: 15%;" sortBy="#{item.dataCadastro}"
-                          filterBy="#{item.dataCadastro}">
-                    <h:outputText value="#{item.dataCadastro}"/>
-                </p:column>
+
+
                 <p:column style="width:10%;text-align: center" headerText="Acoes" exportable="false">
-                    <p:commandButton update=":formAlunos:alunoDetail" oncomplete="PF('itemDialog').show()"
+                    <p:commandButton update=":formUser:userDetail" oncomplete="PF('itemDialog').show()"
                                      icon="ui-icon-search"
                                      title="Detalhe">
-                        <f:setPropertyActionListener value="#{item}" target="#{alunoMB.aluno}"/>
+                        <f:setPropertyActionListener value="#{item}" target="#{usersBN.user}"/>
                     </p:commandButton>
                 </p:column>
+
             </p:dataTable>
-            <p:dialog header="Detalhes do Aluno" widgetVar="itemDialog" modal="true" showEffect="fade" hideEffect="fade"
+
+            <p:dialog header="Detalhes do Usuarios" widgetVar="itemDialog" modal="true" showEffect="fade" hideEffect="fade"
                       resizable="false">
-                <p:outputPanel id="alunoDetail" style="text-align:center;">
-                    <p:panelGrid columns="2" rendered="#{not empty alunoMB.aluno}" columnClasses="label,value">
+                <p:outputPanel id="userDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty usersBN.user}" columnClasses="label,value">
                         <f:facet name="header">
-                            <h:outputLabel>Aluno</h:outputLabel>
+                            <h:outputLabel>User</h:outputLabel>
                         </f:facet>
 
-                        <h:outputText value="Matricula"/>
-                        <h:inputText value="#{alunoMB.aluno.matricula}" disabled="#{true}"/>
+                        <h:outputText value="Name"/>
+                        <h:inputText value="#{usersBN.user.name}" disabled="#{true}"/>
 
-                        <h:outputText value="Nome"/>
-                        <h:inputText value="#{alunoMB.aluno.nome}" disabled="true"/>
+                        <h:outputText value="Address"/>
+                        <h:inputText value="#{usersBN.user.address}" disabled="true"/>
 
-                        <h:outputText value="Email"/>
-                        <h:inputText value="#{alunoMB.aluno.email}" disabled="true"/>
-
-                        <h:outputText value="Telefone"/>
-                        <h:inputText value="#{alunoMB.aluno.telefone}" disabled="true"/>
-
-                        <h:outputText value="Data Cadastro"/>
-                        <h:outputText value="#{alunoMB.aluno.dataCadastro}"/>
+                        <h:outputText value="Date of Birth"/>
+                        <h:inputText value="#{usersBN.user.dateofbirth}" disabled="true"/>
 
                     </p:panelGrid>
                     <p:panelGrid columns="2" columnClasses="label,value">
