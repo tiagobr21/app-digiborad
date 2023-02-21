@@ -35,38 +35,50 @@ public class UsersBN {
     @Setter
     private User user;
 
-    private List<User> userslist;
+
 
     public void onload(){
-        userslist = userRepository.findAll();
+        this.users = userRepository.findAll();
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void prepararNovoUser(){
-        user = new User();
+        this.user = new User();
     }
 
+
+
     public void salvar(){
-        createUserService.execute(user);
+        this.createUserService.execute(user);
 
     }
 
     @PostConstruct
     public List<User> list() {
-        users = userRepository.findAll();
+        this.users = userRepository.findAll();
         return users;
     }
 
     public String delete(User user){
-        createUserService.delete(user);
+        this.createUserService.delete(user);
         return "index?faces-redirect=true";
     }
 
+    public String edit(User user){
+        this.user = user;
+        return "edit?faces-redirect=true";
+    }
+    public String update(){
+        this.createUserService.save(this.user);
+        return "index?faces-redirect=true";
+    }
+
+
     public Integer getListSize() {
-        return users.size();
+        return this.users.size();
     }
 
     public void setListSize(Integer size) {

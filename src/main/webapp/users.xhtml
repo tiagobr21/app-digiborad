@@ -108,6 +108,14 @@
                       process="@this" >
                         <f:setPropertyActionListener value="#{item}" target="#{usersBN.user}"/>
                     </p:commandButton>
+
+                    <p:commandButton  icon="ui-icon-pencil" action="#{usersBN.edit(item)}" oncomplete="PF('userDialogWidgetVar').show()"
+                    update="userDialog" process="@this">
+                        <p:resetInput target="userDialog"></p:resetInput>
+                        <f:setPropertyActionListener value="#{item}" target="#{usersBN.user}"/>
+                    </p:commandButton>
+
+
                 </p:column>
 
             </p:dataTable>
@@ -154,7 +162,7 @@
                     <p:outputLabel value="Data de Nascimento" for="dateofbirth"/>
                     <p:calendar id="dateofbirth" value="#{usersBN.user.dateofbirth}" pattern="yyyy/MM/dd" size="20" />
 
-                    <p:commandButton value="Salvar" actionListener="#{usersBN.salvar}" update="tableUSer userPanelGrid"
+                    <p:commandButton value="Salvar" actionListener="#{usersBN.salvar}" update="tableUSer userPanelGrid userDialog"
                                      oncomplete="PF('userDialogWidgetVar').hide()" process="userDialog"/>
 
                 </h:panelGrid>

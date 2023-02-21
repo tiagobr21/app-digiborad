@@ -26,9 +26,6 @@ public class CreateUserService {
 
     User existsUser = userRepository.findByUsername(user.getUsername());
 
-    if (existsUser != null) {
-      throw new Error("User already exists!");
-    }
 
     user.setPassword(passwordEncoder().encode(user.getPassword()));
 
