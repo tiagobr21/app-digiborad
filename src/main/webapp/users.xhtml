@@ -38,9 +38,11 @@
             <p:growl id="mensagens" showDetail="true" autoUpdate="true" closable="true">
                 <p:autoUpdate/>
             </p:growl>
-            <p:commandButton value="Novo" icon="ui-icon-plus" onclick="PF('userDialogWidgetVar').show()">
 
-            </p:commandButton>
+            <p:commandButton value="Novo" icon="ui-icon-plus" actionListener="#{usersBN.prepararNovoUser}"
+                             oncomplete="PF('userDialogWidgetVar').show()" update="userDialog" proces="@this"/>
+
+
             <p:dataTable id="tableUSer" var="item" value="#{usersBN.users}" prependId="false"
                          paginator="true" rows="25" emptyMessage="Não há alunos cadastrados."
                          rowKey="#{item.id}" selectionMode="single"
@@ -134,28 +136,31 @@
                 </p:outputPanel>
             </p:dialog>
 
-            <p:dialog header="Novo Usuario" widgetVar="userDialogWidgetVar" modal="true" resizable="false" closeOnEscape="true">
-                <h:panelGrid columns="2">
+            <p:dialog id="userDialog" header="Novo Usuario" widgetVar="userDialogWidgetVar" modal="true" resizable="false" closeOnEscape="true">
+                <h:panelGrid id="userPanelGrid" rendered="#{usersBN.user ne null}" columns="2" >
+
                     <p:outputLabel value="Nome" for="name"/>
-                    <p:inputText id="name" size="40" maxlength="30" />
+                    <p:inputText id="name" value="#{usersBN.user.name}" size="40" maxlength="30" />
 
                     <p:outputLabel value="Usuario" for="username"/>
-                    <p:inputText id="username" size="40" maxlength="20" />
+                    <p:inputText id="username" value="#{usersBN.user.username}" size="40" maxlength="20" />
 
                     <p:outputLabel value="Senha" for="password"/>
-                    <p:inputText id="password" size="40" />
+                    <p:inputText id="password" type="password" value="#{usersBN.user.password}" size="40" />
 
                     <p:outputLabel value="Endereço" for="address"/>
-                    <p:inputText id="address" size="40" maxlength="50"/>
+                    <p:inputText id="address" value="#{usersBN.user.address}" size="40" maxlength="50"/>
 
                     <p:outputLabel value="Data de Nascimento" for="dateofbirth"/>
-                    <p:calendar id="dateofbirth" pattern="yyyy/MM/dd" size="20" />
+                    <p:calendar id="dateofbirth" value="#{usersBN.user.dateofbirth}" pattern="yyyy/MM/dd" size="20" />
 
-                    <p:commandButton value="Salvar"/>
- 
+                    <p:commandButton value="Salvar" actionListener="#{usersBN.salvar}" update="tableUSer userPanelGrid"
+                                     oncomplete="PF('userDialogWidgetVar').hide()" process="userDialog"/>
+
                 </h:panelGrid>
 
             </p:dialog>
+
         </h:form>
     </h:body>
 </f:view>

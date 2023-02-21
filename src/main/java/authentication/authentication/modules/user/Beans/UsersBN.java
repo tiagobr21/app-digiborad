@@ -35,13 +35,26 @@ public class UsersBN {
     @Setter
     private User user;
 
-
     private List<User> userslist;
+
     public void onload(){
-        this.userslist = userRepository.findAll();
+        userslist = userRepository.findAll();
     }
 
-   @PostConstruct
+    public User getUser() {
+        return user;
+    }
+
+    public void prepararNovoUser(){
+        user = new User();
+    }
+
+    public void salvar(){
+        createUserService.execute(user);
+
+    }
+
+    @PostConstruct
     public List<User> list() {
         users = userRepository.findAll();
         return users;

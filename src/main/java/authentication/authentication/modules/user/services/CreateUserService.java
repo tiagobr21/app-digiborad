@@ -30,7 +30,6 @@ public class CreateUserService {
       throw new Error("User already exists!");
     }
 
-
     user.setPassword(passwordEncoder().encode(user.getPassword()));
 
     User createdUser = userRepository.save(user);
