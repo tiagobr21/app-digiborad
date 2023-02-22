@@ -1,16 +1,16 @@
 package authentication.authentication.modules.user.services;
 
+import authentication.authentication.modules.user.entities.User;
+import authentication.authentication.modules.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import authentication.authentication.modules.user.repository.UserRepository;
-import authentication.authentication.modules.user.entities.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 public class CreateUserService {
@@ -34,6 +34,7 @@ public class CreateUserService {
     return createdUser;
   }
 
+
   public List<User> listAll() {
     return userRepository.findAll();
   }
@@ -41,6 +42,7 @@ public class CreateUserService {
   public Optional<User> findById(UUID id) {
     return userRepository.findById(id);
   }
+
 
   @Transactional
   public void delete(User user) {
@@ -51,6 +53,8 @@ public class CreateUserService {
   public User save(User user) {
     return userRepository.save(user);
   }
+
+
 
 
 }

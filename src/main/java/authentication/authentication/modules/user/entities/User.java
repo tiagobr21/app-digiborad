@@ -39,6 +39,13 @@ public class User implements Serializable {
   @Column(nullable = false, unique = true)
   private LocalDate dateofbirth;
 
+
+  @Lob
+  @Column(name = "imageUser")
+  private byte[] imageUser;
+
+
+
   @ManyToMany
   private List<Role> roles;
 

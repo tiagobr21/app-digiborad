@@ -1,23 +1,27 @@
 package authentication.authentication.modules.user;
 
+import authentication.authentication.modules.user.dto.CreateUserRoleDTO;
+import authentication.authentication.modules.user.entities.User;
 import authentication.authentication.modules.user.repository.UserRepository;
-import org.springframework.beans.BeanUtils;
+import authentication.authentication.modules.user.services.CreateRoleUserService;
+import authentication.authentication.modules.user.services.CreateUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import authentication.authentication.modules.user.dto.CreateUserRoleDTO;
-import authentication.authentication.modules.user.entities.User;
-import authentication.authentication.modules.user.services.CreateRoleUserService;
-import authentication.authentication.modules.user.services.CreateUserService;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/users")
 
@@ -32,11 +36,13 @@ public class UserController {
   @Autowired
   UserRepository userRepository;
 
+  @PreAuthorize("hasRole('ADMIN')('USER')")
   @GetMapping
   public List<User> list() {
     return createUserService.listAll();
   }
 
+  @PreAuthorize("hasRole('ADMIN')('USER')")
   @GetMapping("/{id}")
   public ResponseEntity<Object> getOneUser(@PathVariable(value = "id") UUID id){
     Optional<User> userModelOptional = createUserService.findById(id);
@@ -45,7 +51,7 @@ public class UserController {
     }
     return ResponseEntity.status(HttpStatus.OK).body(userModelOptional.get());
   }
-
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/create")
   public User create(@RequestBody User user) {
     return createUserService.execute(user);
@@ -79,4 +85,31 @@ public class UserController {
     userRepository.save(user);
     return ResponseEntity.status(HttpStatus.OK).body("User updated successfully.");
   }
+
+
+  @PostMapping("/upload")
+  public ResponseEntity<String> saveFile(@RequestParam("file") MultipartFile file) {
+    log.info("Recebendo o arquivo: ", file.getOriginalFilename());
+    var path = "C:/Users/Tiago/Documents/GitHub/app-digiboard/src/main/webapp/resources/images/users/";
+    var caminho = path  + UUID.randomUUID() + "." + extrairExtensao(file.getOriginalFilename());
+
+    log.info("Novo arquivo"+ caminho);
+
+    try {
+      Files.copy(file.getInputStream(), Path.of(caminho), StandardCopyOption.REPLACE_EXISTING);
+      return new ResponseEntity<>("{\"mensagem\": \"{Arquivo carregado com sucesso!\"}", HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Erro ao processar arquivo",e);
+
+      return new ResponseEntity<>("{\"mensagem\": \"{Erro ao carregar o arquivo!\"}", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  private String extrairExtensao(String nomeArquivo){
+    int i = nomeArquivo.lastIndexOf(".");
+    return nomeArquivo.substring(i+1);
+  }
+
 }

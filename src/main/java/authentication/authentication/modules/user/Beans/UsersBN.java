@@ -6,7 +6,10 @@ import authentication.authentication.modules.user.repository.UserRepository;
 import authentication.authentication.modules.user.services.CreateUserService;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
@@ -16,6 +19,7 @@ import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Named(value = "usersBN")
 @RequestScoped
 @ViewScoped
@@ -50,7 +54,6 @@ public class UsersBN {
     }
 
 
-
     public void salvar(){
         this.createUserService.execute(user);
 
@@ -62,9 +65,17 @@ public class UsersBN {
         return users;
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(User user){
         this.createUserService.delete(user);
         return "index?faces-redirect=true";
+    }
+
+
+    public void uploadImagemUsuario(FileUploadEvent event) {
+
+        this.user.setImageUser(event.getFile().getContent()); // aqui ele pega a imagem que o usuário inseriu e transforma em um array de Bytes para poder ser salvo no banco de dados
     }
 
     public String edit(User user){

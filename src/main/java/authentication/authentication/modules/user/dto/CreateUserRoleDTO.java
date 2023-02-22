@@ -1,12 +1,13 @@
 package authentication.authentication.modules.user.dto;
 
+import lombok.Data;
+
 import java.util.List;
 import java.util.UUID;
 
-import lombok.Data;
-
 @Data
 public class CreateUserRoleDTO {
+
 
   private UUID idUser;
 

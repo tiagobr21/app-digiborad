@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
 import javax.faces.webapp.FacesServlet;
@@ -20,7 +21,15 @@ public class AuthenticationApplication {
 		SpringApplication.run(AuthenticationApplication.class, args);
 	}
 
+	@GetMapping("/users")
+	public String home() {
+		return "users";
+	}
 
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
 	@Bean
 	public ServletRegistrationBean facesServletRegistration() {
 		ServletRegistrationBean registration = new ServletRegistrationBean<>(new FacesServlet(), "*.xhtml");
