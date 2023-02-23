@@ -20,19 +20,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   CustomUserDetailsService userDetailsService;
 
-
+  // Função para criptografar a senha
   private BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
+  // função para autenticar o usuário
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 
-
-
   }
 
+  // Autorização rotas
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http

@@ -40,25 +40,30 @@ public class UsersBN {
     private User user;
 
 
-
+    // função para recarregar a página
     public void onload(){
         this.users = userRepository.findAll();
     }
 
+    // obter o usuário
     public User getUser() {
         return this.user;
     }
 
+    // função preparar um novo usuário para a criação
+    @PreAuthorize("hasRole('ADMIN')") // permissão somente para administradores para essa função
     public void prepararNovoUser(){
         this.user = new User();
     }
 
-
+    // função para criar um novo usuário pelo formulário
+    @PreAuthorize("hasRole('ADMIN')") // permissão somente para administradores para essa função
     public void salvar(){
         this.createUserService.execute(user);
 
     }
 
+    // listar todos os usuários
     @PostConstruct
     public List<User> list() {
         this.users = userRepository.findAll();
@@ -66,20 +71,21 @@ public class UsersBN {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')") // permissão somente para administradores para essa função
     public String delete(User user){
-        this.createUserService.delete(user);
+        this.createUserService.delete(user);  //função para deletar um usuário do banco
         return "index?faces-redirect=true";
     }
 
 
-
+    @PreAuthorize("hasRole('ADMIN')") // permissão somente para administradores para essa função
     public String edit(User user){
-        this.user = user;
+        this.user = user;                      //função para editar um usuário do banco
         return "edit?faces-redirect=true";
     }
+    @PreAuthorize("hasRole('ADMIN')") // permissão somente para administradores para essa função
     public String update(){
-        this.createUserService.save(this.user);
+        this.createUserService.save(this.user);  //função para atualizar um usuário do banco
         return "index?faces-redirect=true";
     }
 

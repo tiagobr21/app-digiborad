@@ -19,6 +19,7 @@ public class CreateRoleUserService {
   @Autowired
   UserRepository userRepository;
 
+  // Função Responsável por dar papéis aos Usuários (Admin ou User)
   public User execute(CreateUserRoleDTO createUserRoleDTO) {
 
     Optional<User> userExists = userRepository.findById(createUserRoleDTO.getIdUser());

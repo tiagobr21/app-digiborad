@@ -36,14 +36,14 @@ public class UserController {
   @Autowired
   UserRepository userRepository;
 
-  @PreAuthorize("hasRole('ADMIN')('USER')")
-  @GetMapping
+  @PreAuthorize("hasRole('ADMIN')('USER')") // Autorização para o Administrador e Usuário
+  @GetMapping//Listar todos
   public List<User> list() {
     return createUserService.listAll();
   }
 
-  @PreAuthorize("hasRole('ADMIN')('USER')")
-  @GetMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')('USER')") // Autorização para o Administrador e Usuário
+  @GetMapping("/{id}")//Rota para Listar por id
   public ResponseEntity<Object> getOneUser(@PathVariable(value = "id") UUID id){
     Optional<User> userModelOptional = createUserService.findById(id);
     if (!userModelOptional.isPresent()) {
@@ -51,20 +51,20 @@ public class UserController {
     }
     return ResponseEntity.status(HttpStatus.OK).body(userModelOptional.get());
   }
-  @PreAuthorize("hasRole('ADMIN')")
-  @PostMapping("/create")
+  @PreAuthorize("hasRole('ADMIN')") //Autorização somente para Administrador
+  @PostMapping("/create")// Rota para Criar novo Usuário
   public User create(@RequestBody User user) {
     return createUserService.execute(user);
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  @PostMapping("/role")
+  @PreAuthorize("hasRole('ADMIN')") //Autorização somente para Administrador
+  @PostMapping("/role")// Rota para Definir os papeis dos Usuários
   public User role(@RequestBody CreateUserRoleDTO createUserRoleDTO) {
     return createRoleUserService.execute(createUserRoleDTO);
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  @DeleteMapping("delete/{id}")
+  @PreAuthorize("hasRole('ADMIN')") //Autorização somente para Administrador
+  @DeleteMapping("delete/{id}") // Rota para Deletar Usuários por id
   public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") UUID id){
     Optional<User> userModelOptional = createUserService.findById(id);
     if (!userModelOptional.isPresent()) {
@@ -74,8 +74,8 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  @PutMapping("update/{id}")
+  @PreAuthorize("hasRole('ADMIN')") //Autorização somente para Administrador
+  @PutMapping("update/{id}") // Rota para Atualizar Usuário por id
   public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id,
                                            @RequestBody User user){
     Optional<User> userModelOptional = createUserService.findById(id);
@@ -87,7 +87,7 @@ public class UserController {
   }
 
 
-  @PostMapping("/upload")
+  @PostMapping("/upload") // Rota para Envair arquivos via rest
   public ResponseEntity<String> saveFile(@RequestParam("file") MultipartFile file) {
     log.info("Recebendo o arquivo: ", file.getOriginalFilename());
     var path = "C:/Users/Tiago/Documents/GitHub/app-digiboard/src/main/webapp/resources/images/users/";
@@ -104,7 +104,6 @@ public class UserController {
       return new ResponseEntity<>("{\"mensagem\": \"{Erro ao carregar o arquivo!\"}", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
 
 
   private String extrairExtensao(String nomeArquivo){

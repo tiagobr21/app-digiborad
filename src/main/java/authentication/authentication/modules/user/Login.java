@@ -24,6 +24,7 @@ public class Login {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    // Função para receber o username e password e autenticar o Usuário
     public String login() {
         try {
             SecurityContextHolder.getContext().getAuthentication();
@@ -37,6 +38,7 @@ public class Login {
         }
     }
 
+    // Sair do sistema
     public String logout() {
         SecurityContextHolder.clearContext();
         return "/login.xhtml?faces-redirect=true";

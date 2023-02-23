@@ -9,8 +9,8 @@ import java.util.UUID;
 public class CreateUserRoleDTO {
 
 
-  private UUID idUser;
+  private UUID idUser; // identificação do Usuário
 
-  private List<UUID> idsRoles;
+  private List<UUID> idsRoles; // identificação dos papeis
 
 }

@@ -22,6 +22,7 @@ public class CreateUserService {
     return new BCryptPasswordEncoder();
   }
 
+  // Função para criar novos Usuários
   public User execute(User user) {
 
     User existsUser = userRepository.findByUsername(user.getUsername());
@@ -34,21 +35,23 @@ public class CreateUserService {
     return createdUser;
   }
 
-
+ // Função para listar todos os Usuários
   public List<User> listAll() {
     return userRepository.findAll();
   }
 
+  // Função para listar os Usuários por id
   public Optional<User> findById(UUID id) {
     return userRepository.findById(id);
   }
 
-
+  // Função para deletar os Usuários por id
   @Transactional
   public void delete(User user) {
     userRepository.delete(user);
   }
 
+  // Função para editar os Usuários por id
   @Transactional
   public User save(User user) {
     return userRepository.save(user);

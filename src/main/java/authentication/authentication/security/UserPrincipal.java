@@ -17,6 +17,7 @@ public class UserPrincipal implements UserDetails {
   private String password;
   private Collection<? extends GrantedAuthority> authorities;
 
+  // Setar o Usuário principal que logar no sistema
   public UserPrincipal(User user) {
     this.username = user.getUsername();
     this.password = user.getPassword();

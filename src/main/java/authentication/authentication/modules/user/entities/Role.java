@@ -19,8 +19,8 @@ public class Role {
 
   @Id
   @GeneratedValue
-  private UUID id;
-  private String name;
+  private UUID id; // identificação do papel
+  private String name; // nome do papel
 
   public Role(UUID id) {
     this.id = id;
