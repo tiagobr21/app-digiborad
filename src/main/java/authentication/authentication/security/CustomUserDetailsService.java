@@ -19,10 +19,10 @@ public class CustomUserDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 
-
     User existsUser = userRepository.findByUsernameFetchRoles(username);
 
-    System.out.println("existsUser:::::::::"+ existsUser);
+    System.out.println(existsUser);
+
     if (existsUser == null) {
       throw new Error("User does not exists!");
     }

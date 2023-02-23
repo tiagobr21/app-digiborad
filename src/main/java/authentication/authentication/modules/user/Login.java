@@ -30,7 +30,7 @@ public class Login {
             Authentication request = new UsernamePasswordAuthenticationToken(this.username, this.password);
             Authentication result = authenticationManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(result);
-            return "users.xhtml?faces-redirect=true";
+            return "users.jr?faces-redirect=true";
         } catch (AuthenticationException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authentication failed.", "Invalid username or password."));
             return null;
@@ -42,12 +42,10 @@ public class Login {
     }
 
     public void setUsername(String username) {
-
         this.username = username;
     }
 
     public String getPassword() {
-
         return password;
     }
 
@@ -55,11 +53,4 @@ public class Login {
         this.password = password;
     }
 
-    public AuthenticationManager getAuthenticationManager() {
-        return authenticationManager;
-    }
-
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
 }
