@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     User existsUser = userRepository.findByUsernameFetchRoles(username);
 
-    System.out.println(existsUser);
+    //System.out.println(existsUser);
 
     if (existsUser == null) {
       throw new Error("User does not exists!");

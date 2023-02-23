@@ -35,8 +35,6 @@
     </div>
 </div>
 
-<p:fileUpload id="Imagem"  required="true" auto="false" sizeLimit="3000000" requiredMessage="A foto principal é obrigatória"  fileLimit="1" fileUploadListener="#{usersBN.uploadImagemUsuario}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  />
-
 
 
 <f:view>
@@ -47,9 +45,10 @@
     <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
     <h:body>
 
-        <h1>Welcome, #{loginController.username}!</h1>
 
         <h:form id="formUser" prependId="false">
+
+            <p:commandButton id="logout" icon="ui-icon-power" action="#{loginController.logout()}" ajax="false" />
 
             <p:growl id="mensagens" showDetail="true" autoUpdate="true" closable="true">
                 <p:autoUpdate/>

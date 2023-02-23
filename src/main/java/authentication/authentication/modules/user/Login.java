@@ -37,6 +37,11 @@ public class Login {
         }
     }
 
+    public String logout() {
+        SecurityContextHolder.clearContext();
+        return "/login.xhtml?faces-redirect=true";
+    }
+
     public String getUsername() {
         return username;
     }
@@ -53,4 +58,11 @@ public class Login {
         this.password = password;
     }
 
+    public AuthenticationManager getAuthenticationManager() {
+        return authenticationManager;
+    }
+
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 }

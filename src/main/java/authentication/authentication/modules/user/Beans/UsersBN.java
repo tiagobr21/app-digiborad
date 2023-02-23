@@ -73,10 +73,6 @@ public class UsersBN {
     }
 
 
-    public void uploadImagemUsuario(FileUploadEvent event) {
-
-        this.user.setImageUser(event.getFile().getContent()); // aqui ele pega a imagem que o usuário inseriu e transforma em um array de Bytes para poder ser salvo no banco de dados
-    }
 
     public String edit(User user){
         this.user = user;

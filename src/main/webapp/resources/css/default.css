@@ -73,7 +73,7 @@ a:link:hover, a:visited:hover  {
 /* Float the link section to the right */
 .header-right {
     float: right;
-    background-color: #dddddd;
+    background-image: url("../images/users/720332c0-7c0c-4b6d-95ef-a0dd99a0faf5.jpg");
     background-size: cover;
     margin: auto 0;
     width: 60px;
@@ -98,6 +98,10 @@ a:link:hover, a:visited:hover  {
     top:15px;
     left: 15px;
 
+}
+
+#logout{
+    float: right;
 }
 
 
