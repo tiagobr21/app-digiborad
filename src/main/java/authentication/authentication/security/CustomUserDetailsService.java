@@ -18,11 +18,15 @@ public class CustomUserDetailsService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+
+
     User existsUser = userRepository.findByUsernameFetchRoles(username);
 
+    System.out.println("existsUser:::::::::"+ existsUser);
     if (existsUser == null) {
       throw new Error("User does not exists!");
     }
+
 
     return UserPrincipal.create(existsUser);
   }

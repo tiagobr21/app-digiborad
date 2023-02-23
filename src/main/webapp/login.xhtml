@@ -9,18 +9,18 @@
 
     <title>App-digiboard</title>
 </h:head>
+
 <h:body>
-    <h:form>
+    <h:form id="loginForm" prependId="false">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
         <h:panelGrid columns="2">
-            <h:outputLabel for="username" value="Username:"/>
-            <h:inputText id="username" value="#{loginContoller.username}"/>
+            <h:outputLabel for="username" value="Username: " />
+            <p:inputText id="username" required="true" value="#{loginController.username}" />
 
-            <h:outputLabel for="password" value="Password:"/>
-            <h:inputSecret id="password" value="#{loginContoller.password}"/>
-
-            <h:outputLabel value=""/>
-            <h:commandButton value="Login" action="#{loginContoller.login}"/>
+            <h:outputLabel for="password" value="Password: " />
+            <p:password id="password" required="true" value="#{loginController.password}" />
         </h:panelGrid>
+        <p:commandButton value="Login" action="#{loginController.login()}" ajax="false" />
     </h:form>
 </h:body>
 </html>
