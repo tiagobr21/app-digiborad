@@ -10,17 +10,19 @@
     <title>App-digiboard</title>
 </h:head>
 
-<h:body>
+<h:body onload="PF('dlg2').show()">
+    <p:dialog header="Login" widgetVar="dlg2" height="120" width="350" closable="false" resizable="false" showEffect="fade">
     <h:form id="loginForm" prependId="false">
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
         <h:panelGrid columns="2">
             <h:outputLabel for="username" value="Username: " />
-            <p:inputText id="username" required="true" value="#{loginController.username}" />
+            <p:inputText id="username" size="16" required="true" value="#{loginController.username}" />
 
             <h:outputLabel for="password" value="Password: " />
-            <p:password id="password" required="true" value="#{loginController.password}" />
+            <p:password id="password" size="16" required="true" value="#{loginController.password}" />
         </h:panelGrid>
-        <p:commandButton value="Login" action="#{loginController.login()}" ajax="false" />
+        <p:commandButton style="position: relative; top: 15px; left: 35%" value="Login" action="#{loginController.login()}" ajax="false" />
     </h:form>
+    </p:dialog>
 </h:body>
 </html>

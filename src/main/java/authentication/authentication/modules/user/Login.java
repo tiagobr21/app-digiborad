@@ -31,9 +31,19 @@ public class Login {
             Authentication request = new UsernamePasswordAuthenticationToken(this.username, this.password);
             Authentication result = authenticationManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(result);
+            this.username = request.getName();
             return "users.jr?faces-redirect=true";
         } catch (AuthenticationException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authentication failed.", "Invalid username or password."));
+            return null;
+        }
+    }
+
+    public String getLoggedInUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated()) {
+            return auth.getName();
+        } else {
             return null;
         }
     }

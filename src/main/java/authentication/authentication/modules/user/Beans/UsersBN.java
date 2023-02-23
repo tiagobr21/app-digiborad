@@ -1,6 +1,7 @@
 package authentication.authentication.modules.user.Beans;
 
 
+import authentication.authentication.modules.user.Login;
 import authentication.authentication.modules.user.entities.User;
 import authentication.authentication.modules.user.repository.UserRepository;
 import authentication.authentication.modules.user.services.CreateUserService;
@@ -8,16 +9,34 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 
 @Slf4j
 @Named(value = "usersBN")
@@ -38,6 +57,7 @@ public class UsersBN {
     @Getter
     @Setter
     private User user;
+
 
 
     // função para recarregar a página

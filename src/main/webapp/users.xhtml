@@ -45,8 +45,9 @@
     <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
     <h:body>
 
-
         <h:form id="formUser" prependId="false">
+
+            <p>Welcome #{loginController.getLoggedInUsername()}</p>
 
             <p:commandButton id="logout" icon="ui-icon-power" action="#{loginController.logout()}" ajax="false" />
 
