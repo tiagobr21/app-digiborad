@@ -3,6 +3,7 @@ package authentication.authentication.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -37,8 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http
             .authorizeRequests()
             .antMatchers("/login.jr").permitAll()
-            .antMatchers("/users.jr").hasRole("USER")
-            .antMatchers("/users.jr").hasRole("ADMIN")
+            .antMatchers("/users.jr").authenticated()
+            .antMatchers(HttpMethod.POST, "/users/create").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/users/uptade/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/users/delete/**").hasRole("ADMIN")
             .and()
             .formLogin()
             .loginPage("/login.jr")
